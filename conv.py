@@ -24,12 +24,17 @@ Y = pickle.load(open("labels.pickle", "rb"))
 print(X.shape[1:])
 
 Y = np_utils.to_categorical(Y)
+training_data = X[0:901]
+test_data =X[901:]
+
+training_labels = Y[0:901]
+test_labels = Y[901:]
 
 #define the larger model
 def larger_model():
     #Create model
     model=Sequential()
-    model.add(Conv2D(30,(5,5), input_shape=X.shape[1:], activation='relu'))
+    model.add(Conv2D(30,(5,5), input_shape=training_data.shape[1:], activation='relu'))
     model.add(MaxPooling2D(pool_size=(2,2)))
     model.add(Conv2D(15,(3,3), activation='relu'))
     model.add(MaxPooling2D(pool_size=(2,2)))
@@ -44,4 +49,7 @@ def larger_model():
 #build the model
 model=larger_model();
 #fit the model
-model.fit(X, Y, batch_size=32, epochs=3, validation_split=0.1)
+model.fit(training_data, training_labels, batch_size=80, epochs=10, validation_split=0.1)
+#test the model
+scores = model.evaluate(test_data, test_labels, verbose=0)
+print("CNN Error: %.2f%%" % (100-scores[1]*100))
