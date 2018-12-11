@@ -36,12 +36,12 @@ def larger_model():
     model=Sequential()
     model.add(Conv2D(30,(5,5), input_shape=training_data.shape[1:], activation='relu'))
     model.add(MaxPooling2D(pool_size=(2,2)))
-    model.add(Conv2D(15,(3,3), activation='relu'))
+    model.add(Conv2D(15,(5,5), activation='relu'))
     model.add(MaxPooling2D(pool_size=(2,2)))
     model.add(Dropout(0.2))
     model.add(Flatten())
     model.add(Dense(128, activation='relu'))
-    model.add(Dense(5,activation='relu'))
+    model.add(Dense(5,activation='softmax'))
     #Compile model
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     return model
@@ -49,7 +49,11 @@ def larger_model():
 #build the model
 model=larger_model();
 #fit the model
-model.fit(training_data, training_labels, batch_size=80, epochs=10, validation_split=0.1)
+model.fit(training_data, training_labels, batch_size=32, epochs=10, validation_split=0.1)
 #test the model
 scores = model.evaluate(test_data, test_labels, verbose=0)
 print("CNN Error: %.2f%%" % (100-scores[1]*100))
+
+predictions = model.predict(test_data)
+print("Predictions:\n", predictions[1])
+print("Labels:\n", test_labels[1])
