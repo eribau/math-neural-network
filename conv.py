@@ -57,3 +57,10 @@ print("CNN Error: %.2f%%" % (100-scores[1]*100))
 predictions = model.predict(test_data)
 print("Predictions:\n", predictions[1])
 print("Labels:\n", test_labels[1])
+
+# save the model to a json file
+model_json = model.to_json()
+with open("model.json", "w") as json_file:
+    json_file.write(model_json)
+# save the weight to a HDF5 file
+model.save_weights("model.h5")
