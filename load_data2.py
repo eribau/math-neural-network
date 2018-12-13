@@ -33,6 +33,7 @@ random.shuffle(training_data)
 X = []
 Y = []
 
+# Put the data and the labels into their own arrays
 for features, label in training_data:
     X.append(features)
     Y.append(label)

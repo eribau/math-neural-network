@@ -14,20 +14,19 @@ from keras import backend as K
 import pickle
 
 K.set_image_dim_ordering('tf')
-# fix random seed for reproducibility
-seed = 7
-numpy.random.seed(seed)
 
 #load data
 X = pickle.load(open("features.pickle", "rb"))
 Y = pickle.load(open("labels.pickle", "rb"))
 print(X.shape[1:])
 
+# make the labels on-hot encoded
 Y = np_utils.to_categorical(Y)
-training_data = X[0:901]
-test_data =X[901:]
 
+# Take the first 900 samples as training data and the remaining as test data
+training_data = X[0:901]
 training_labels = Y[0:901]
+test_data =X[901:]
 test_labels = Y[901:]
 
 #define the model
@@ -49,7 +48,7 @@ def create_model():
 #build the model
 model=create_model();
 #fit the model
-model.fit(training_data, training_labels, batch_size=32, epochs=10, validation_split=0.1)
+model.fit(training_data, training_labels, batch_size=50, epochs=10, validation_split=0.1)
 #test the model
 scores = model.evaluate(test_data, test_labels, verbose=0)
 print("CNN Error: %.2f%%" % (100-scores[1]*100))
