@@ -10,11 +10,10 @@ path_to_data = os.path.join(path_to_file, "../")
 categories = ["equals", "minus", "pi", "plus", "sigma"]
 
 img_size = 45
-training_data = []
 
-counter = 0
 
 def create_training_data():
+    training_data = []
     for category in categories:
         path = os.path.join(path_to_data, category)
         class_num = categories.index(category)
@@ -25,8 +24,9 @@ def create_training_data():
                 training_data.append([img_array, class_num])
             except Exception as e:
                 pass
+    return training_data
 
-create_training_data()
+training_data = create_training_data()
 
 random.shuffle(training_data)
 

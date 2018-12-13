@@ -18,7 +18,7 @@ K.set_image_dim_ordering('tf')
 seed = 7
 numpy.random.seed(seed)
 
-#load data etc
+#load data
 X = pickle.load(open("features.pickle", "rb"))
 Y = pickle.load(open("labels.pickle", "rb"))
 print(X.shape[1:])
@@ -30,8 +30,8 @@ test_data =X[901:]
 training_labels = Y[0:901]
 test_labels = Y[901:]
 
-#define the larger model
-def larger_model():
+#define the model
+def create_model():
     #Create model
     model=Sequential()
     model.add(Conv2D(30,(5,5), input_shape=training_data.shape[1:], activation='relu'))
@@ -47,7 +47,7 @@ def larger_model():
     return model
 
 #build the model
-model=larger_model();
+model=create_model();
 #fit the model
 model.fit(training_data, training_labels, batch_size=32, epochs=10, validation_split=0.1)
 #test the model
